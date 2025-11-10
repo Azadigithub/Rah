@@ -5,10 +5,12 @@ import './App.css'
 import Login from './Pages/Login'
 import Landing from './Pages/Landing'
 import { useRoutes } from 'react-router-dom'
+import Success from './Pages/Success'
 
 const routes = [
   {path:"/" ,element:<Landing/>},
   {path:"/Login" ,element:<Login/>},
+  {path:"/success" ,element:<Success/>},
 ]
 function App() {
   const router = useRoutes(routes);

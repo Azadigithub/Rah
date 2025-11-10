@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 // {...register("fname"),{pattern:{ / [0-9]/}}} or Yup
 /* <input {...register("exampleRequired", { required: true })} /> */
 
 const Login = () => {
-
+  const navigate = useNavigate();
   const shema = yup.object({
     fname: yup
       .string()
@@ -24,7 +26,7 @@ const Login = () => {
       .matches(/^09\d{9}$/, "فرمت شماره صحیح نیست!"),
     otp: yup
       .string()
-      .required( "کد وارد شده صحیح نیست!")
+      .required("کد وارد شده صحیح نیست!")
       .matches(/^\d{6}$/, "کد وارد شده صحیح نیست!"),
   });
   const {
@@ -41,12 +43,19 @@ const Login = () => {
       otp: "",
     },
     resolver: yupResolver(shema),
-    
   });
 
   const Submit = (data) => {
     console.log(data);
   };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      toast.success("اطلاعات با موفقیت ثبت شد!");
+      setTimeout(() => {
+        navigate("/Success");
+      }, 3000);
+    }
+  }, [isSubmitSuccessful]);
   return (
     <div className="font-vazir">
       <div className="flex flex-col items-center justify-center my-[50px]">
@@ -116,7 +125,9 @@ const Login = () => {
           <input
             type="number"
             placeholder=" شماره همراه"
-            className={`border-2 border-gray-400 rounded-lg p-2 w-full max-w-[250px]  outline-0 ${errors.phonenumber ? "border-red-500" : "border-gray-400"}`}
+            className={`border-2 border-gray-400 rounded-lg p-2 w-full max-w-[250px]  outline-0 ${
+              errors.phonenumber ? "border-red-500" : "border-gray-400"
+            }`}
             {...register("phonenumber")}
           />
           {errors.phonenumber && (
@@ -129,7 +140,9 @@ const Login = () => {
           <input
             type="number"
             placeholder=" کد پیامک شده"
-            className={`border-2 border-gray-400 rounded-lg p-2 w-full max-w-[250px] outline-0 ${errors.otp? "border-red-500" : "border-gray-400"} `}
+            className={`border-2 border-gray-400 rounded-lg p-2 w-full max-w-[250px] outline-0 ${
+              errors.otp ? "border-red-500" : "border-gray-400"
+            } `}
             {...register("otp")}
           />
           {errors.otp && (
@@ -137,23 +150,23 @@ const Login = () => {
               {errors.otp.message}
             </span>
           )}
-
         </div>
         <button
           type="submit"
-          className=" bg-blue-800 text-white rounded-lg p-2 w-[70%] max-w-[250px]  outline-blue-700"
+          className=" bg-blue-800 text-white rounded-lg p-2 w-[70%] max-w-[250px]  outline-0"
         >
           پیش ثبت نام
         </button>
-        <button className=" bg-blue-800 text-white rounded-lg p-2 w-[70%] max-w-[250px]  outline-blue-700">
-          {" "}
+        <button className=" bg-blue-800 text-white rounded-lg p-2 w-[70%] max-w-[250px]  outline-0">
           باما تماس بگیرید
         </button>
         <div className="flex items-center justify-center">
           <p>در حال حاضر حساب کاربری دارید ؟</p>
           <p className="text-blue-800">ورود به حساب</p>
         </div>
+        <div></div>
       </form>
+      <ToastContainer />
     </div>
   );
 };
