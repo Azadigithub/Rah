@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @font-face {
     font-family: vazir;
-    src: url(/Fonts/Vazir.woff2);
+    src: url("/Fonts/Vazir.woff2") format("woff2");
 }
 @utility flex-center {
   display: flex;
